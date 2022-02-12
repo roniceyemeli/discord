@@ -1,0 +1,24 @@
+.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.icon-img{
+    /* width: 80px;
+    height: 80px; */
+    margin-bottom: 20px;
+}
+input#formBasicEmail {
+    width: 100%;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #e82462;
+    border-color: #ec4d89;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.signup-img{
+    width: 100%;
+}
