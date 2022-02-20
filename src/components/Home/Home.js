@@ -4,12 +4,20 @@ import { Redirect } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import messages from "../../assets/messages.png";
 import ServerIcons from "../ServerIcons";
-import { ChevronDownIcon, PlusIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  CogIcon,
+  MicrophoneIcon,
+  PhoneIcon,
+  PlusIcon,
+} from "@heroicons/react/outline";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Channel from "../Channel";
+import Chat from "../Chat";
 
 const Home = () => {
   const [user] = useAuthState(auth);
+  console.log("first", user);
 
   // how to access all of the channels
   const [channels] = useCollection(db.collection("channels"));
@@ -60,17 +68,61 @@ const Home = () => {
               />
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
-              {/* <Channel className="mb-14" /> */}
-
               {channels?.docs.map((doc) => {
-                <Channel
-                  key={doc.id}
-                  id={doc.id}
-                  channelName={doc.data().channelName}
-                />;
+                return (
+                  <Channel
+                    key={doc.id}
+                    id={doc.id}
+                    channelName={doc.data().channelName}
+                  />
+                );
               })}
             </div>
           </div>
+
+          <div className="bg-gray-700 p-2 flex justify-between items-center space-x-8">
+            <div className="flex items-center space-x-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="text-white h-7 b-2 cursor-pointer hover:bg-discord_iconHoverBg rounded"
+                onClick={() => auth.signOut()}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              <div className="">
+                <h3 className="text-white font-normal text-sm">
+                  {user?.displayName}
+                </h3>
+                <span className="text-gray-400 block text-xs">
+                  #{user?.uid.substring(0, 4)}
+                </span>
+              </div>
+              <div className=" text-gray-400 flex items-center cursor-pointer">
+                <div className="hover:bg-red p-2 rounded">
+                  <MicrophoneIcon className="h-5 icon hover:bg-discord_iconoverBg rounded" />
+                </div>
+                <div className="hover:bg-red p-2 rounded">
+                  <PhoneIcon className="h-5 icon hover:bg-discord_iconoverBg rounded" />
+                </div>
+                <div className="hover:bg-red p-2 rounded">
+                  <CogIcon className="h-5 icon hover:bg-discord_iconoverBg rounded" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-discord_chatBg flex-grow">
+          <Chat />
         </div>
       </div>
     </>
